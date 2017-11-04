@@ -1,0 +1,184 @@
+@import "compass/css3";
+
+// VARS
+$circle-width: 0.08em;
+// colors default
+$primary-color: #000;
+$secondary-color: #ddd;
+$bg-color: #ffffff;
+
+*{box-sizing: border-box;} 
+
+p {
+  margin-top:50px;
+  font-family: Papyrus, fantasy;
+}
+
+.head-len p{
+  margin-right:25px;
+  margin-left:25px;
+}
+
+.sml {
+  font-size: 30px;
+}
+
+.outside {
+  line-height:50px;
+  vertical-align: middle;
+  display:inline-block;
+  cursor: pointer;
+}
+
+.up-down {
+  margin-right:35px;
+  margin-left:35px;
+  font-size:25px
+}
+
+.up-down button {
+  margin-right:15px;
+  margin-left:15px;
+}
+
+section {
+  cursor: pointer;
+  border-radius: 50%;
+  border: 4px solid black;
+  width: 200px;
+  align: center;
+  margin-left: 43%;
+}
+
+button {
+  background-color: white;
+  color: black;
+  border: none !important;
+  cursor: pointer;
+  outline: none;
+}
+
+button:focus, button:active {
+  outline: none !important;
+}
+
+// CIRCLE
+// classes 2 extend
+.rect-auto{
+	clip: rect(auto, auto, auto, auto);
+}
+
+.pie {
+	position: absolute;
+	border: $circle-width solid $primary-color;
+	width: 1 - (2 * $circle-width);
+	height: 1 - (2 * $circle-width);
+	clip: rect(0em, 0.5em, 1em, 0em);
+	border-radius: 50%;
+	@include rotate(0deg);
+}
+
+.pie-fill {
+	@include rotate(180deg);
+}
+
+// main
+.c100 {
+	*, *:before, *:after {
+		@include box-sizing(content-box);
+	}
+
+	position: relative;
+	font-size: 120px;
+	width: 1em;
+	height: 1em;
+	border-radius: 50%;
+	float: left;
+	margin: 0 0.1em 0.1em 0;
+	background-color: $secondary-color;
+
+	// center circle to its parent
+	&.center{
+		float: none;
+		margin: 0 auto;
+    margin-left: 42.5%;
+    margin-top: 4%;
+	}
+	// bigger size
+	&.big{
+		font-size: 200px;
+	}
+	// smaller size
+	&.small{
+		font-size: 80px;
+	}
+	// centered value inside circle
+	> span {
+		position: absolute;
+    font-family: Papyrus, fantasy;
+		width: 100%;
+		z-index: 1;
+		left: -70px;
+		top: 40px;
+		width: 5em;
+		line-height: 40px;
+		font-size: 70px;
+		color: $primary-color;
+		display: block;
+		text-align: center;
+		white-space: nowrap;
+    vertical-align: middle;
+		@include transition-property(all);
+		@include transition-duration(0.2s);
+		@include transition-timing-function(ease-out);
+	}
+	// background inside the circle
+	&:after{
+		position: absolute;
+		top: $circle-width;
+		left: $circle-width;
+		display: block;
+		content: " ";
+		border-radius: 50%;
+		background-color: $bg-color;
+		width: 1 - (2 * $circle-width);
+		height: 1 - (2 * $circle-width);
+		@include transition-property(all);
+		@include transition-duration(0.2s);
+		@include transition-timing-function(ease-in);
+	}
+	// the slice (mask)
+	.slice {
+		position: absolute;
+		width: 1em;
+		height: 1em;
+		clip: rect(0em, 1em, 1em, 0.5em);
+	}
+
+	// circle to show the status
+	.bar {
+		@extend .pie;
+	}
+	// loop to create all needed elements automatically
+	@for $j from 51 through 100 {
+
+		&.p#{$j} .slice {
+			@extend .rect-auto;
+		}
+
+		&.p#{$j} .bar:after{
+			@extend .pie-fill;
+		}
+
+		&.p#{$j} .fill{
+			@extend .pie;
+			@extend .pie-fill;
+		}
+	}
+	// loop to rotate all 100 circles
+	@for $j from 1 through 100 {
+		&.p#{$j} .bar {
+			@include rotate((360/100*$j) + deg);
+		}
+	}
+}

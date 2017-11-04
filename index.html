@@ -1,0 +1,20 @@
+<div ng-app="MyApp" ng-controller="MyController">
+  <h1><p class="text-center">Pomodoro Clock</p></h1>
+        <div ng-bind = "Message">
+        </div>
+        <br />
+  <div class="head-len text-center">
+    <h4><p class="d-inline">Break Length</p><p class="d-inline">Session Length</p></h4>
+  </div>
+  <div class="text-center">
+    <div class="up-down d-inline">
+      <button ng-click="chngbrlen(-1)"><b>-</b></button>{{brlen}}<button ng-click="chngbrlen(1)">+</button>
+    </div>
+    <div class="up-down d-inline">
+      <button ng-click="chngseslen(-1)"><b>-</b></button>{{seslen}}<button ng-click="chngseslen(1)">+</button>
+    </div>
+  </div>
+  <br/>
+        
+<pct-complete class="center" value="ammount" sname="sesname" timel="timeLeft" method="toggleTimer()"></pct-complete>
+</div>
